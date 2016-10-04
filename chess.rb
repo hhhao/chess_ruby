@@ -550,3 +550,5 @@ class Chess
 end
 ############################################################
 
+chess = Chess.new
+chess.start
