@@ -1,6 +1,5 @@
 # coding: utf-8
 class Chess
-  attr_reader :current_move_side
   def initialize
     @board = Array.new(8) { Array.new(8) }
     @current_move_side = :w
