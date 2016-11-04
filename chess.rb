@@ -25,6 +25,7 @@ class Chess
     end
     @dead_pieces = [[], []]
     @promoted_pieces = [[], []]
+    @resign = false
   end
 
   def start
@@ -34,6 +35,10 @@ class Chess
         draw_board
         puts "#{color_to_word(@current_move_side)}'s move: (eg:b1c3/[b]ack/[f]orward/[r]esign)"
         break if getinput(input_array)
+      end
+      if @resign
+        puts "#{color_to_word(opposite_color(@current_move_side))} wins!"
+        return false
       end
       move(input_array[0], input_array[1], nil)
     end
@@ -46,11 +51,14 @@ class Chess
     input[0] = raw_input[0..1]
     input[1] = raw_input[-2..-1]
     return false if input[0].length < 1
-    if input[0] == 'b' || input[0] == 'f'
+    if ['b', 'f', 'r'].include? input[0]
       if input[0] == 'b' && @hist_index > 0
         back_one_move
       elsif input[0] == 'f' && @history[@hist_index] != nil
         forward_one_move
+      elsif input[0] == 'r'
+        @resign = true
+        return true
       else
         puts "No available move in history!"
       end
