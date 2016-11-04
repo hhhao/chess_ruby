@@ -45,7 +45,7 @@ class Chess
     input = []
     input[0] = raw_input[0..1]
     input[1] = raw_input[-2..-1]
-    return false if input[0].length < 2
+    return false if input[0].length < 1
     if input[0] == 'b' || input[0] == 'f'
       if input[0] == 'b' && @hist_index > 0
         back_one_move
