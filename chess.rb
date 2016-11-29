@@ -249,10 +249,14 @@ class Chess
     end
   end
 
-  def back_one_move()
+  def back_one_move(*option)
     @current_move_side = opposite_color(@current_move_side)
     @hist_index -= 1
-    last_move = @history[@hist_index]    #[from,to,:move_type,eat?]
+    if option[0] == 'd'
+      last_move = @history.pop
+    else
+      last_move = @history[@hist_index]    #[from,to,:move_type,option,eat?]
+    end
     piece = @board[last_move[1][0]][last_move[1][1]]
     piece.moves -= 1
     pos_switch(last_move[1], last_move[0])
@@ -270,7 +274,9 @@ class Chess
 
   def forward_one_move()
     next_move = @history[@hist_index]
-    move(next_move[0], next_move[1], next_move[3])
+    if !next_move.nil?
+      move(next_move[0], next_move[1], next_move[3])
+    end
   end
 
   def checkmate_stalemate?
@@ -279,7 +285,7 @@ class Chess
         for x in 0..7
           for y in 0..7
             if move(p.loc, [x, y], 'q')
-              back_one_move
+              back_one_move('d') #option = 'd' deletes the move from history
               return false
             end
           end
